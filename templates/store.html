@@ -78,11 +78,11 @@
                         <i class="fa-solid fa-list me-2"></i> Categories
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Clothes</a></li>
-                            <li><a class="dropdown-item" href="#">Electronic Devices</a></li>
-                            <li><a class="dropdown-item" href="#">Beauty & Personal Care</a></li>
-                            <li><a class="dropdown-item" href="#">Machinery</a></li>
-                            <li><a class="dropdown-item" href="#">Home equipments</a></li>
+                            <li><a class="dropdown-item" href="#">Jeans</a></li>
+                            <li><a class="dropdown-item" href="#">Jackets</a></li>
+                            <li><a class="dropdown-item" href="#">T shirts</a></li>
+                            <li><a class="dropdown-item" href="#">Shoes</a></li>
+                            <li><a class="dropdown-item" href="#">Shirt</a></li>
                         </ul>
                       </div>
                       </li>
@@ -113,11 +113,11 @@
             <div class="filter-content collapse show" id="collapse_1">
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><a class="product-link link-dark" href="#">Clothes  </a></li>
-                    <li class="list-group-item"><a class="product-link link-dark" href="#">Watches </a></li>
-                    <li class="list-group-item"><a class="product-link link-dark" href="#">Cinema  </a></li>
-                    <li class="list-group-item"><a class="product-link link-dark" href="#">Home items </a></li>
-                    <li class="list-group-item"><a class="product-link link-dark" href="#">Animals</a></li>
+                    <li class="list-group-item"><a class="product-link link-dark" href="#">Jeans  </a></li>
+                    <li class="list-group-item"><a class="product-link link-dark" href="#">Jackets </a></li>
+                    <li class="list-group-item"><a class="product-link link-dark" href="#">T shirts  </a></li>
+                    <li class="list-group-item"><a class="product-link link-dark" href="#">Shoes </a></li>
+                    <li class="list-group-item"><a class="product-link link-dark" href="#">Shirt</a></li>
                     </ul>
     
                 </div> <!-- card-body.// -->
@@ -204,155 +204,30 @@
     
     <header class="border-bottom mb-4 pb-3">
             <div class="form-inline">
-                <span class="mr-md-auto">32 Items found </span>
+                <span class="mr-md-auto">{{ product_count }} Items found </span>
                 
             </div>
     </header><!-- sect-heading -->
     
     <div class="row">
+        {% for product in products %}
         <div class="col-md-4">
             <figure class="card card-product-grid">
                 <div class="img-wrap"> 
-                    <img class="img-thumbnail" src="images/items/1.jpg">
+                    <img class="img-thumbnail" src="{{ product.images.url }}">
                 </div> <!-- img-wrap.// -->
                 <figcaption class="info-wrap ms-3 mb-3">
                     <div class="">
-                        <a href="./product-detail.html" class="product-link link-dark">Great item name goes here</a>
+                        <a href="./product-detail.html" class="product-link link-dark">{{ product.product_name }}</a>
                         <div class="price-wrap mt-2">
-                            <span class="price">$1280</span>
-                            <del class="price-old">$1980</del>
+                            <span class="price">$ {{ product.price }}</span>
                         </div> <!-- price-wrap.// -->
                     </div>
                     <a href="#" class="btn btn-block btn-success">Added to cart </a>
                 </figcaption>
             </figure>
         </div> <!-- col.// -->
-    
-        <div class="col-md-4">
-            <figure class="card card-product-grid">
-                <div class="img-wrap"> 
-                    <img class="img-thumbnail"  src="images/items/2.jpg">
-                    
-                </div> <!-- img-wrap.// -->
-                <figcaption class="info-wrap ms-3 mb-3">
-                    <div class="">
-                        <a href="./product-detail.html" class="product-link link-dark">Product name goes here just for demo item</a>
-                        <div class="price-wrap mt-2">
-                            <span class="price">$1280</span>
-                        </div> <!-- price-wrap.// -->
-                    </div>
-                    <a href="#" class="btn btn-block btn-outline-dark">Add to cart </a>	
-                </figcaption>
-            </figure>
-        </div> <!-- col.// -->
-    
-        <div class="col-md-4">
-            <figure class="card card-product-grid">
-                <div class="img-wrap"> 
-                    <img class="img-thumbnail"  src="images/items/3.jpg">
-                    
-                </div> <!-- img-wrap.// -->
-                <figcaption class="info-wrap ms-3 mb-3">
-                    <div class="">
-                        <a href="./product-detail.html" class="product-link link-dark">Product name goes here just for demo item</a>
-                        <div class="price-wrap mt-2">
-                            <span class="price">$1280</span>
-                        </div> <!-- price-wrap.// -->
-                    </div>
-                    <a href="#" class="btn btn-block btn-outline-dark">Add to cart </a>	
-                </figcaption>
-            </figure>
-        </div> <!-- col.// -->
-    
-        <div class="col-md-4">
-            <figure class="card card-product-grid">
-                <div class="img-wrap"> 
-                    <img class="img-thumbnail"  src="images/items/4.jpg">
-                    
-                </div> <!-- img-wrap.// -->
-                <figcaption class="info-wrap ms-3 mb-3">
-                    <div class="">
-                        <a href="./product-detail.html" class="product-link link-dark">Product name goes here just for demo item</a>
-                        <div class="price-wrap mt-2">
-                            <span class="price">$1280</span>
-                        </div> <!-- price-wrap.// -->
-                    </div>
-                    <a href="#" class="btn btn-block btn-outline-dark">Add to cart </a>	
-                </figcaption>
-            </figure>
-        </div> <!-- col.// -->
-    
-        <div class="col-md-4">
-            <figure class="card card-product-grid">
-                <div class="img-wrap"> 
-                    <img class="img-thumbnail"  src="images/items/5.jpg">
-                    
-                </div> <!-- img-wrap.// -->
-                <figcaption class="info-wrap ms-3 mb-3">
-                    <div class="">
-                        <a href="./product-detail.html" class="product-link link-dark">Product name goes here just for demo item</a>
-                        <div class="price-wrap mt-2">
-                            <span class="price">$1280</span>
-                        </div> <!-- price-wrap.// -->
-                    </div>
-                    <a href="#" class="btn btn-block btn-outline-dark">Add to cart </a>	
-                </figcaption>
-            </figure>
-        </div> <!-- col.// -->
-    
-        <div class="col-md-4">
-            <figure class="card card-product-grid">
-                <div class="img-wrap"> 
-                    <img class="img-thumbnail"  src="images/items/6.jpg">
-                    
-                </div> <!-- img-wrap.// -->
-                <figcaption class="info-wrap ms-3 mb-3">
-                    <div class="">
-                        <a href="./product-detail.html" class="product-link link-dark">Product name goes here just for demo item</a>
-                        <div class="price-wrap mt-2">
-                            <span class="price">$1280</span>
-                        </div> <!-- price-wrap.// -->
-                    </div>
-                    <a href="#" class="btn btn-block btn-outline-dark">Add to cart </a>	
-                </figcaption>
-            </figure>
-        </div> <!-- col.// -->
-    
-        <div class="col-md-4">
-            <figure class="card card-product-grid">
-                <div class="img-wrap"> 
-                    <img class="img-thumbnail"  src="images/items/7.jpg">
-                    
-                </div> <!-- img-wrap.// -->
-                <figcaption class="info-wrap ms-3 mb-3">
-                    <div class="">
-                        <a href="./product-detail.html" class="product-link link-dark">Product name goes here just for demo item</a>
-                        <div class="price-wrap mt-2">
-                            <span class="price">$1280</span>
-                        </div> <!-- price-wrap.// -->
-                    </div>
-                    <a href="#" class="btn btn-block btn-outline-dark">Add to cart </a>	
-                </figcaption>
-            </figure>
-        </div> <!-- col.// -->
-    
-        <div class="col-md-4">
-            <figure class="card card-product-grid">
-                <div class="img-wrap"> 
-                    <img class="img-thumbnail"  src="images/items/1.jpg">
-                    
-                </div> <!-- img-wrap.// -->
-                <figcaption class="info-wrap ms-3 mb-3">
-                    <div class="">
-                        <a href="./product-detail.html" class="product-link link-dark">Product name goes here just for demo item</a>
-                        <div class="price-wrap mt-2">
-                            <span class="price">$1280</span>
-                        </div> <!-- price-wrap.// -->
-                    </div>
-                    <a href="#" class="btn btn-block btn-outline-dark">Add to cart </a>	
-                </figcaption>
-            </figure>
-        </div> <!-- col.// -->
+        {% endfor %}
     </div> <!-- row end.// -->
     
     
