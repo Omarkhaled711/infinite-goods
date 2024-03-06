@@ -12,7 +12,7 @@ class Category(models.Model):
     '''
     category_name = models.CharField(max_length=64, unique=True)
     category_description = models.CharField(max_length=255, blank=True)
-    category_urlSlug = models.CharField(max_length=128, unique=True)
+    category_urlSlug = models.SlugField(max_length=128, unique=True)
     category_image = models.ImageField(
         upload_to='images/categories', blank=True)
 

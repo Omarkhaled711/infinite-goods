@@ -124,3 +124,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = ['infiniteGoods/static', ]
+
+# Media settings
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
