@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'category',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,8 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTH_USER_MODEL = 'users.User'
 
 WSGI_APPLICATION = 'infiniteGoods.wsgi.application'
 
