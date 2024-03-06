@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Kaisei+Tokumin&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+
+:root {
+    --sans-font: "Poppins", sans-serif;
+    --serif-font: "Kaisei Tokumin", serif;
+    --logo-font: font-family: "Rubik", sans-serif;
+}
+/* Body style */
+.body {
+    font-family: var(--serif-font);
+}
+
+/* Brand Name style */
+.brand-name {
+    font-family: var(--logo-font);
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 1.5px;
+}
+
+/* Cart Number */
+.cart-number {
+    background-color: rgb(233, 45, 45) !important;
+}
+
+/* navbar */
+.navbar {
+    box-shadow: 0 1px 6px 1px rgb(200, 197, 197);
+}
+.nav-item {
+    border-bottom: 0.5px solid rgb(0, 0, 0,0.05);
+}
+
+/* banner image */
+.intro-banner-wrap {
+    margin-top: 50px;
+}
+
+/* card styling */
+.card-product-grid {
+    margin-right: 5px;
+}
+/* item image */
+.img-thumbnail {
+    border: none;
+}
+/* link style */
+.product-link {
+    text-decoration: none;
+    line-height: 1.5;
+    font-family: var(--sans-font);
+    font-size: 90%;
+}
+.card-product-grid {
+    justify-content: center;
+}
+
+
+
+/* page titles */
+.title-page {
+    font-family: var(--sans-font);
+}
+
+/* adjust the border on product detail page */
+.border-left {
+    border-left: 1px solid #ccc;
+}
+
+/* Product detail styles */
+
+.custom-button { /* styling the Add to cart button */
+    max-width: 250px;
+}
+
+.review-box-container {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.review-box-container article {
+    border-bottom: 1px solid #ddd; /* Border between reviews */
+    padding-bottom: 15px;
+}
+
+.review-box-container article:last-child {
+    border-bottom: none; /* Remove border from the last review */
+}
+
+/* Custom styling for the rounded-circle class */
+.rounded-circle {
+    width: 80px; 
+    height: 80px;
+    object-fit: cover; /* Maintain aspect ratio and cover the entire container */
+}
+
+.dashboard-img {
+    max-width: 200px;
+    height: auto;
+}
+
+/* search and store side bar */
+.fa-chevron-down{
+ position: absolute;
+ left: 85%;   
+}
+.search-filter-title {
+    text-decoration: none;
+}
+
+/* media queries */
+@media(min-width: 992px) {
+    .nav-item{
+        border-bottom: none;
+    }
+}
+
+@media(max-width: 770px) {
+    .border-left {
+        border: none;
+    }
+}

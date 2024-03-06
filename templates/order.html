@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfiniteGoods</title>
+
+    <!----------Font-awsome cdn -------->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!---------- Bootstrap ------------->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!----------- jquery   ------------->
+    <script src="jquery-3.7.1.min.js"></script>
+    <!----------Custom Css ------------->
+    <link rel="stylesheet" href="css/main.css">
+
+    <!----------Favicon ---------------->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon/site.webmanifest">
+    
+</head>
+<body>
+    <!----navbar--------->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-4">
+        <div class="container">
+            <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" 
+            href="index.html">
+                <img src="images/pngegg.png" alt="logo image">
+                <span class="brand-name ms-2">InfiniteGoods</span>
+            </a>
+                <div class="row">
+                    <div class="col mx-auto">
+                        <div class="input-group">
+                            <input class="form-control border-end-0 border rounded-pill" type="search" placeholder="search"id="example-search-input">
+                            <span class="input-group-append">
+                                <button class="btn btn-outline-dark bg-white border-bottom-0 border rounded-pill ms-1" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            <div class="order-lg-2">
+                <button type="button" class="btn cart-button position-relative">
+                    <i class="fa fa-shopping-cart py-2"></i>
+                    <span class="cart-number position-absolute start-95 translate-middle badge bg-outline-dark">0</span>
+                </button>
+            </div>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse order-lg-1" id="navMenu">
+                <ul class="navbar-nav mx-auto text-center">
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link" href="./index.html">Home</a>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link" href="./store.html">Shop</a>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link" href="./index.html">About</a>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link" href="./login.html">Login</a>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link" href="./register.html">Register</a>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                    
+                    <div class="dropdown">
+                        <button  class="btn btn-outline-dark dropdown-toggle ms-2" type="button" 
+                        id="dropdownMenuButton1" data-bs-toggle="dropdown" 
+                        aria-expanded="false">
+                        <i class="fa-solid fa-list me-2"></i> Categories
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <li><a class="dropdown-item" href="#">Clothes</a></li>
+                          <li><a class="dropdown-item" href="#">Electronic Devices</a></li>
+                          <li><a class="dropdown-item" href="#">Beauty & Personal Care</a></li>
+                          <li><a class="dropdown-item" href="#">Machinery</a></li>
+                          <li><a class="dropdown-item" href="#">Home equipments</a></li>
+                        </ul>
+                      </div>
+                      </li>
+                </ul>
+            </div>      
+        </div>  
+    </nav>
+    <!----end of navbar-->
+
+    <section class="section-content py-4">
+        <div class="container">
+        
+        
+        
+        <!-- ============================ COMPONENT 2 ================================= -->
+        <div class="row">
+                <main class="col-md-8">
+        
+        <article class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Review cart</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <img class="img-thumbnail" src="./images/items/1.jpg" alt="Product Image" class="border img-fluid">
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <figcaption class="mt-4">
+                                <p>Product name </p>
+                                <span class="text-muted">2x = $560 </span>
+                            </figcaption>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- col.// -->
+                 <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <img class="img-thumbnail" src="./images/items/2.jpg" alt="Product Image" class="border img-fluid">
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <figcaption class="mt-4">
+                                <p>Product name </p>
+                                <span class="text-muted">2x = $560 </span>
+                            </figcaption>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <img class="img-thumbnail" src="./images/items/3.jpg" alt="Product Image" class="border img-fluid">
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <figcaption class="mt-4">
+                                <p>Product name </p>
+                                <span class="text-muted">2x = $560 </span>
+                            </figcaption>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- col.// -->
+                 <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <img class="img-thumbnail" src="./images/items/4.jpg" alt="Product Image" class="border img-fluid">
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <figcaption class="mt-4">
+                                <p>Product name </p>
+                                <span class="text-muted">2x = $560 </span>
+                            </figcaption>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- col.// -->
+            </div> <!-- row.// -->
+        </div> <!-- card-body.// -->
+        </article> <!-- card.// -->
+        
+        
+        <article class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Contact info</h4>
+            <form action="">
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label>Frst name</label>
+                        <input type="text" placeholder="Type here" class="form-control">
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Last name</label>
+                        <input type="text" placeholder="Type here" class="form-control">
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Phone</label>
+                        <input type="text" value="+998" class="form-control">
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Email</label>
+                        <input type="email" placeholder="example@gmail.com" class="form-control">
+                    </div>
+                </div> <!-- row.// -->	
+            </form>
+        </div> <!-- card-body.// -->
+        </article> <!-- card.// -->
+        
+        
+        <article class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Delivery info</h4>
+            <form action="">
+                    
+        
+                <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Country*</label>
+                            <select name="" class="form-control">
+                                <option value="">India</option>
+                                <option value="">United States</option>
+                                <option value="">France</option>
+                                <option value="">Italy</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>State*</label>
+                            <input type="text" placeholder="Type here" class="form-control">
+                        </div>
+                        <div class="form-group col-sm-8">
+                            <label>Street*</label>
+                            <input type="text" placeholder="Type here" class="form-control">
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>Building</label>
+                            <input type="text" placeholder="" class="form-control">
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>House</label>
+                            <input type="text" placeholder="Type here" class="form-control">
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>Postal code</label>
+                            <input type="text" placeholder="" class="form-control">
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>Zip</label>
+                            <input type="text" placeholder="" class="form-control">
+                        </div>
+                </div> <!-- row.// -->	
+            </form>
+        </div> <!-- card-body.// -->
+        </article> <!-- card.// -->
+        
+        
+        <article class="accordion" id="accordion_pay">
+            <div class="card mb-2 mt-2">
+                <header class="card-header">
+                    <div class="row">
+                        <div class="col-8">
+                            <label class="form-check collapsed" data-toggle="collapse" data-target="#pay_paynet">
+                                <input class="form-check-input" name="payment-option" checked="" type="radio" value="option2">
+                                <h6 class="form-check-label"> 
+                                    Paypal 
+                                </h6>
+                            </label>
+                        </div>
+                        <div class="col-4 text-right">
+                            <img src="./images/misc/payment-paypal.png" height="24"> 
+                        </div>
+                    </div>
+                </header>
+                
+                
+                <div id="pay_paynet" class="collapse show" data-parent="#accordion_pay">
+                <div class="card-body">
+                    <p class="text-center text-muted">Connect your PayPal account and use it to pay your bills. You'll be redirected to PayPal to add your billing information.</p>
+                    <p class="text-center">
+                        <a href="#"><img src="./images/misc/btn-paypal.png" height="32"></a>
+                        <br><br>
+                    </p>
+                </div> <!-- card body .// -->
+                </div> <!-- collapse .// -->
+            </div> <!-- card.// -->
+            <div class="card mb-2 mt-2">
+                <header class="card-header">
+                    <div class="row">
+                        <div class="col-8">
+                            <label class="form-check collapsed" data-toggle="collapse" data-target="#pay_paynet">
+                                <input class="form-check-input" name="payment-option" checked="" type="radio" value="option2">
+                                <h6 class="form-check-label"> 
+                                    Credit Card 
+                                </h6>
+                            </label>
+                        </div>
+                        <div class="col-4 text-right">
+                            <img src="./images/misc/payment-card.png" height="24"> 
+                        </div>
+                    </div>
+                </header>
+                
+            <div id="pay_payme" class="collapse" data-parent="#accordion_pay">
+                <div class="card-body">
+                    <p class="alert alert-success">Some information or instruction</p>
+                    <form class="form-inline">
+                        <input type="text" class="form-control mr-2" placeholder="xxxx-xxxx-xxxx-xxxx" name="">
+                        <input type="text" class="form-control mr-2" style="width: 100px" placeholder="dd/yy" name="">
+                        <input type="number" maxlength="3" class="form-control mr-2" style="width: 100px" placeholder="cvc" name="">
+                        <button class="btn btn btn-success">Button</button>
+                    </form>
+                </div> <!-- card body .// -->
+            </div> <!-- collapse .// -->
+            </div> <!-- card.// -->
+            
+        </article> 
+        <!-- accordion end.// -->
+          
+            </main> <!-- col.// -->
+            <aside class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <dl >
+                            <dd><span class="text-muted">Total Price:</span> $69.97</dd>
+                        </dl>
+                        <dl >
+                            <dd><span class="text-muted">Discount:</span> <span class="text-right text-danger"> -$10.00 </span></dd>
+                        </dl>
+                        <dl>
+                            <dd class="text-dark b"><strong><span class="text-muted">Total:</span> $59.97</strong></dd>
+                        </dl>
+                        <hr>
+                        <p class="text-center mb-3">
+                            <img src="./images/misc/payments.png" height="26">
+                        </p>
+                        <div class="d-grid gap-2">
+                        <a href="./order.html" class="btn btn-dark"> Place Order </a>
+                        </div>
+                    </div> <!-- card-body.// -->
+                </div> <!-- card.// -->
+            </aside> <!-- col.// -->
+            </div> <!-- row.// -->
+        
+        <!-- ============================ COMPONENT 2 END//  ================================= -->
+        
+        </div> <!-- container .//  -->
+        </section>
+    <!---Footer---->
+    <section class="footer-bottom border-top row">
+        <div class="col-md-2">
+            <p class="text-muted mt-2"> © 2024 InfiniteGoods </p>
+        </div>
+        <div class="col-md-8 text-muted text-md-center mt-2">
+            <span class="px-2">email@somthing.com</span>
+            <span class="px-2">+123-456-789</span>
+            <span class="px-2">Street name 123 </span>
+        </div>
+        <div class="col-md-2 text-muted text-md-right mt-2">
+            <i class="fab fa-lg fa-cc-visa me-2"></i>
+            <i class="fab fa-lg fa-cc-mastercard me-2"></i>
+            <i class="fab fa-lg fa-cc-paypal"></i>
+        </div>
+    </section>
+<!----------JS for bootstrap ---->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <!----------Custom js ----------->
+    <script src="js/script.js"></script>
+</body>
+</html>
