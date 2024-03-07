@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-4">
         <div class="container">
             <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" 
-            href="index.html">
+            href="{% url 'home' %}">
                 <img src="{% static 'images/pngegg.png' %}" alt="logo image">
                 <span class="brand-name ms-2">InfiniteGoods</span>
             </a>
@@ -55,11 +55,10 @@
                         <i class="fa-solid fa-list me-2"></i> Categories
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Jeans</a></li>
-                            <li><a class="dropdown-item" href="#">Jackets</a></li>
-                            <li><a class="dropdown-item" href="#">T shirts</a></li>
-                            <li><a class="dropdown-item" href="#">Shoes</a></li>
-                            <li><a class="dropdown-item" href="#">Shirt</a></li>
+                            <li><a class="dropdown-item" href="{% url 'shop' %}">All Products</a></li>
+                            {% for category in links %}
+                                <li><a class="dropdown-item" href="{{ category.get_url }}">{{ category.category_name }}</a></li>
+                            {% endfor %}
                         </ul>
                       </div>
                       </li>
