@@ -12,7 +12,7 @@
                     <aside class="col-md-6">
                         <article class="gallery-wrap">
                             <div class="img-big-wrap">
-                                <a href="#"><img class="img-fluid bordered-img" src="{{ single_product.images.url }}"></a>
+                                <a href="#"><img class="img-fluid img-thumbnail" src="{{ single_product.images.url }}"></a>
                             </div> <!-- img-big-wrap.// -->
 
                         </article> <!-- gallery-wrap .end// -->
@@ -56,19 +56,19 @@
                                         <h6>Select Size</h6>
                                         <div class="btn-group" role="group"
                                             aria-label="Basic radio toggle button group">
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio_1"
+                                            <input type="radio" class="btn-check" name="btnradio_g1" id="btnradio_1"
                                                 autocomplete="off" checked>
                                             <label class="btn btn-outline-dark" for="btnradio_1">S</label>
 
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio_2"
+                                            <input type="radio" class="btn-check" name="btnradio_g1" id="btnradio_2"
                                                 autocomplete="off">
                                             <label class="btn btn-outline-dark" for="btnradio_2">M</label>
 
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio_3"
+                                            <input type="radio" class="btn-check" name="btnradio_g1g1" id="btnradio_3"
                                                 autocomplete="off">
                                             <label class="btn btn-outline-dark" for="btnradio_3">L</label>
 
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio_4"
+                                            <input type="radio" class="btn-check" name="btnradio_g1" id="btnradio_4"
                                                 autocomplete="off">
                                             <label class="btn btn-outline-dark" for="btnradio_4">XL</label>
                                         </div>
@@ -101,7 +101,7 @@
                     <div class="review-box-container">
                         <article class="box mb-3">
                             <div class="icontext w-100">
-                                <img src="./images/avatars/avatar2.jpg" class="img-fluid img-thumbnail rounded-circle">
+                                <img src="{% static './images/avatars/avatar2.jpg' %}" class="img-fluid img-thumbnail rounded-circle">
                                 <div class="text">
                                     <span class="date text-muted float-md-right">24.04.2020 </span>
                                     <h6 class="mb-1">Mohamed Ahmed </h6>
