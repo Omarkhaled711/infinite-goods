@@ -19,36 +19,45 @@
                                 <thead class="text-muted">
                                     <tr class="small text-uppercase">
                                         <th scope="col">Product</th>
-                                        <th scope="col" width="150">Quantity</th>
-                                        <th scope="col" width="150">Price</th>
-                                        <th scope="col" class="text-right" width="200">Actions</th>
+                                        <th scope="col" class="text-center" width="150">Quantity</th>
+                                        <th scope="col" class="text-center" width="150">Price</th>
+                                        <th scope="col" class="text-center" width="200">Actions</th>
                                     </tr>
                                 </thead>
                                 
                                 <tbody>
+                                    {% for item in cart_items %}
                                     <tr>
                                         <td>
                                             <figure class="itemside align-items-center">
                                                 <div class="aside">
-                                                    <img src="{% static 'images/items/2.jpg' %}" class="img-thumbnail img-fluid" style="max-width: 80px;">
+                                                    <img src="{{ item.product.images.url }}" class="img-thumbnail img-fluid" style="max-width: 80px;">
                                                 </div>
                                                 <figcaption class="info">
-                                                    <a href="#" class="product-link title text-dark" data-abc="true">Flower Formal T-shirt</a>
+                                                    <a href="#" class="product-link title text-dark" data-abc="true">{{item.product.product_name }}</a>
                                                     <p class="text-muted small">SIZE: L <br> Brand: ADDA </p>
                                                 </figcaption>
                                             </figure>
                                         </td>
-                                        <td> <select class="form-control mt-4">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                            </select> </td>
                                         <td>
-                                            <div class="price-wrap mt-4"> <var class="price">$10.00</var> <small class="text-muted"> $9.20 each </small> </div>
+                                            <div class="input-group mt-4">
+                                              <a href="{% url 'decrement_cart_item' item.product.id %}" class="btn btn-outline-secondary" type="button" id="decrementBtn">
+                                                <i class="fas fa-minus"></i>
+                                              </a>
+                                              <input type="text" class="form-control text-center" value="{{item.quantity}}" id="quantityInput" readonly>
+                                              <a href="{% url 'add_cart_item' item.product.id %}" class="btn btn-outline-secondary" type="button" id="incrementBtn">
+                                                <i class="fas fa-plus"></i>
+                                              </a>
+                                            </div>
+                                          </td>
+                                        <td>
+                                            <div class="price-wrap text-center mt-4">
+                                                <p class="price">${{ item.item_total_price}} <br> <small class="text-muted"> ${{ item.product.price }} each </small> </p>
+                                            </div>
                                         </td>
-                                        <td class="text-right">  <a href="" class="btn btn-danger btn-round mt-4" data-abc="true"> Remove</a> </td>
+                                        <td class="text-center">  <a href="{% url 'remove_cart_item' item.product.id %}" class="btn btn-danger btn-round mt-4" data-abc="true"> Remove</a> </td>
                                     </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -57,14 +66,26 @@
                 <aside class="col-lg-3 mt-4">
                     <div class="card">
                         <div class="card-body">
+                            {% if applied_coupon == None %}
+                                <form method="post" action="{% url 'cart' %}">
+                                    {% csrf_token %}
+                                    <input type="text" name="coupon_code" placeholder="Enter coupon code">
+                                    <button class="mt-2 mb-2 center btn btn-primary" type="submit">Apply Coupon</button>
+                                </form>
+                            {% else %}
+                                <p> <strong> <span class="text-success"> Coupon: </span>  {{ applied_coupon }} </strong> is applied </p>
+                            {% endif %}
                             <dl >
-                                <dd><span class="text-muted">Total Price:</span> $69.97</dd>
+                                <dd><span class="text-muted">Total Price:</span> ${{ total_price }}</dd>
                             </dl>
                             <dl >
-                                <dd><span class="text-muted">Discount:</span> <span class="text-right text-danger"> -$10.00 </span></dd>
+                                <dd><span class="text-muted">Tax:</span> ${{ tax }}</dd>
+                            </dl>
+                            <dl >
+                                <dd><span class="text-muted">Discount:</span> <span class="text-right text-danger"> -${{ discount }} </span></dd>
                             </dl>
                             <dl>
-                                <dd class="text-dark b"><strong><span class="text-muted">Total:</span> $59.97</strong></dd>
+                                <dd class="text-dark b"><strong><span class="text-muted">Total:</span>{{ all_total }}</strong></dd>
                             </dl>
                             <hr>
                             <p class="text-center mb-3">

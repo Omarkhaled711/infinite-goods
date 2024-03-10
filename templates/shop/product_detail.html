@@ -79,7 +79,7 @@
                                     <h5 class="text-danger">Out of Stock</h5>
                                 {% else %}
                                     <div class="d-flex justify-content-center align-items-center">
-                                    <a href="./product-detail.html" class="btn btn-dark mt-5 custom-button"> <span class="text">Add to
+                                    <a href="{% url 'add_cart_item' single_product.id %}" class="btn btn-dark mt-5 custom-button"> <span class="submit">Add to
                                         cart</span> <i class="fas fa-shopping-cart"></i> </a>
                                 {% endif %}
                                 </div>
