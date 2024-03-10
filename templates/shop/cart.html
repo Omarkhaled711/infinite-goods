@@ -8,8 +8,15 @@
 
     <section class="section-content py-4 mb-5">
         <div class="container">
-        
+        {% if not cart_items %}
+            <h2 class="text-center" > Your cart is empty right now</h2>
+            <br>
+            <div class = "text-center">
+                <a href=" {% url 'shop' %}" class="btn btn-dark"> Continue Shopping </a>
+            </div>
+
         <!-- ============================ COMPONENT 1 ================================= -->
+        {% else %}
         <div class="container-fluid">
             <div class="row">
                 <aside class="col-lg-9">
@@ -34,7 +41,7 @@
                                                     <img src="{{ item.product.images.url }}" class="img-thumbnail img-fluid" style="max-width: 80px;">
                                                 </div>
                                                 <figcaption class="info">
-                                                    <a href="#" class="product-link title text-dark" data-abc="true">{{item.product.product_name }}</a>
+                                                    <a href="{{ item.product.get_url }}" class="product-link title text-dark" data-abc="true">{{item.product.product_name }}</a>
                                                     <p class="text-muted small">SIZE: L <br> Brand: ADDA </p>
                                                 </figcaption>
                                             </figure>
@@ -93,13 +100,13 @@
                             </p>
                             <div class="d-grid gap-2">
                             <a href="./order.html" class="btn btn-dark"> Check out </a>
-                            <a href="./store.html" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
+                            <a href="{% url 'shop' %}" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
                             </div>
                         </div> <!-- card-body.// -->
                     </div> <!-- card.// -->
                 </aside>
             </div>
-            
         </div>
+        {% endif %}
     </section>
     {% endblock %}    
