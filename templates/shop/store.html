@@ -130,11 +130,11 @@
                     <figcaption class="info-wrap ms-3 mb-3">
                         <div class="">
                             <a href="{{ product.get_url }}" class="product-link link-dark">{{ product.product_name }}</a>
-                            <div class="price-wrap mt-2">
-                                <span class="price">$ {{ product.price }}</span>
+                            <div class="price-wrap mt-2 mb-2">
+                                <span class="price"> <strong> $ {{ product.price }} </strong> </span>
                             </div> <!-- price-wrap.// -->
                         </div>
-                        <a href="{% url 'add_cart_item' product.id %}" class="btn btn-block btn-dark">Add to cart </a>
+                        <a href="{{ product.get_url }}" class="btn btn-block btn-outline-dark">View product Details </a>
                     </figcaption>
                 </figure>
             </div> <!-- col.// -->
@@ -144,11 +144,11 @@
         
         <nav class="mt-4 mb-2" aria-label="Page navigation sample">
         <ul class="pagination">
-            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item disabled"><a class="page-link link-dark" href="#">Previous</a></li>
+            <li class="page-item active"><a class="page-link link-dark" href="#">1</a></li>
+            <li class="page-item"><a class="page-link link-dark" href="#">2</a></li>
+            <li class="page-item"><a class="page-link link-dark" href="#">3</a></li>
+            <li class="page-item"><a class="page-link link-dark" href="#">Next</a></li>
         </ul>
         </nav>
         

@@ -49,7 +49,7 @@
     text-decoration: none;
     line-height: 1.5;
     font-family: var(--sans-font);
-    font-size: 90%;
+    font-size: 110%;
 }
 .card-product-grid {
     justify-content: center;
