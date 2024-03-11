@@ -2,7 +2,7 @@
 A model for cart related functionalities
 """
 from django.db import models
-from shop.models import Product
+from shop.models import Product, Variation
 from django.utils import timezone
 
 # Create your models here.
@@ -25,6 +25,7 @@ class CartItem(models.Model):
     """
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    variations = models.ManyToManyField(Variation, blank=True)
     is_active = models.BooleanField(default=True)
     quantity = models.IntegerField()
 
@@ -35,7 +36,7 @@ class CartItem(models.Model):
         return self.product.price * self.quantity
 
     def __str__(self):
-        return self.product
+        return self.product.product_name
 
 
 class Coupon(models.Model):
