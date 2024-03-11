@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.core.paginator import EmptyPage, Paginator, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 from . models import Product
@@ -51,3 +52,21 @@ def product_detail(request, category_slug, product_slug):
         'inside_cart': inside_cart
     }
     return render(request, 'shop/product_detail.html', context)
+
+
+def search(request):
+    """
+    Adding a search functionality to our store
+    """
+    products = None
+    product_count = 0
+    keyword = request.GET.get('keyword', None)
+    if keyword:
+        products = Product.objects.filter(
+            Q(description__icontains=keyword) | Q(product_name__icontains=keyword)).order_by('id')
+        product_count = products.count()
+    context = {
+        'products': products,
+        'product_count': product_count,
+    }
+    return render(request, 'shop/store.html', context)
