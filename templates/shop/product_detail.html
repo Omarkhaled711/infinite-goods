@@ -79,10 +79,18 @@
                                     <h5 class="text-danger">Out of Stock</h5>
                                 {% else %}
                                     <div class="d-flex justify-content-center align-items-center">
-                                    <a href="./product-detail.html" class="btn btn-dark mt-5 custom-button"> <span class="text">Add to
+                                    {% if inside_cart %}
+                                    <a href="#" class="btn btn-success mt-5 custom-button"> <span class="submit">Added to
+                                        cart</span> <i class="ms-1 fas fa-check"></i> </a>
+                                    <a href="{% url 'cart' %}" class="btn btn-primary ms-4 mt-5 custom-button"> <span class="submit"> View Cart 
+
+                                    </span> <i class="ms-1 fas fa-eye"></i> </a>
+                                    {% else %}
+                                        <a href="{% url 'add_cart_item' single_product.id %}" class="btn btn-dark mt-5 custom-button"> <span class="submit">Add to
                                         cart</span> <i class="fas fa-shopping-cart"></i> </a>
+                                    {% endif %}
+                                    </div>
                                 {% endif %}
-                                </div>
                         </article> <!-- product-info-aside .// -->
                     </main> <!-- col.// -->
                 </div> <!-- row.// -->

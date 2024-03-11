@@ -20,10 +20,10 @@
                     </div>
                 </div>
             <div class="order-lg-2">
-                <button type="button" class="btn cart-button position-relative">
+                <a href="{% url 'cart' %}" type="button" class="btn cart-button position-relative">
                     <i class="fa fa-shopping-cart py-2"></i>
-                    <span class="cart-number position-absolute start-95 translate-middle badge bg-primary">0</span>
-                </button>
+                    <span class="cart-number position-absolute start-95 translate-middle badge bg-primary">{{cart_count}}</span>
+                </a>
             </div>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" 
             data-bs-target="#navMenu">
