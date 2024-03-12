@@ -5,7 +5,11 @@
 
     <section class="mt-4">
         <div class="container">
-            <h1 class="title-page">Store</h2>
+            {% if 'search' in request.path %}
+                <h1 class="title-page">Store</h2>
+            {% else %}
+                <h1 class="title-page">Search Results</h2>
+            {% endif %}
         </div> <!-- container //  -->
     </section>
 
@@ -121,24 +125,28 @@
         </header><!-- sect-heading -->
         
         <div class="row">
-            {% for product in products %}
-            <div class="col-md-4">
-                <figure class="card card-product-grid">
-                    <div class="img-wrap"> 
-                        <a href="{{ product.get_url }}"><img class="img-thumbnail" src="{{ product.images.url }}"></a>
-                    </div> <!-- img-wrap.// -->
-                    <figcaption class="info-wrap ms-3 mb-3">
-                        <div class="">
-                            <a href="{{ product.get_url }}" class="product-link link-dark">{{ product.product_name }}</a>
-                            <div class="price-wrap mt-2 mb-2">
-                                <span class="price"> <strong> $ {{ product.price }} </strong> </span>
-                            </div> <!-- price-wrap.// -->
-                        </div>
-                        <a href="{{ product.get_url }}" class="btn btn-block btn-outline-dark">View product Details </a>
-                    </figcaption>
-                </figure>
-            </div> <!-- col.// -->
-            {% endfor %}
+            {% if products %}
+                {% for product in products %}
+                <div class="col-md-4">
+                    <figure class="card card-product-grid">
+                        <div class="img-wrap"> 
+                            <a href="{{ product.get_url }}"><img class="img-thumbnail" src="{{ product.images.url }}"></a>
+                        </div> <!-- img-wrap.// -->
+                        <figcaption class="info-wrap ms-3 mb-3">
+                            <div class="">
+                                <a href="{{ product.get_url }}" class="product-link link-dark">{{ product.product_name }}</a>
+                                <div class="price-wrap mt-2 mb-2">
+                                    <span class="price"> <strong> $ {{ product.price }} </strong> </span>
+                                </div> <!-- price-wrap.// -->
+                            </div>
+                            <a href="{{ product.get_url }}" class="btn btn-block btn-outline-dark">View product Details </a>
+                        </figcaption>
+                    </figure>
+                </div> <!-- col.// -->
+                {% endfor %}
+            {% else %}
+                <h2> No Products Found </h2>
+            {% endif %}
         </div> <!-- row end.// -->
         
         
