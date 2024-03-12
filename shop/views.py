@@ -1,3 +1,4 @@
+from django.core.paginator import EmptyPage, Paginator, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 from . models import Product
 from category.models import Category
@@ -13,19 +14,23 @@ def shop(request, category_slug=None):
     """
     categories = None
     products = None
+    products_page_num = 6
 
     if category_slug != None:
         categories = get_object_or_404(
             Category, category_urlSlug=category_slug)
         products = Product.objects.filter(
-            category=categories, is_available=True)
-        product_count = products.count()
+            category=categories, is_available=True).order_by('id')
     else:
-        products = Product.objects.all().filter(is_available=True)
-        product_count = products.count()
+        products = Product.objects.all().filter(is_available=True).order_by('id')
+
+    product_count = products.count()
+    paginator = Paginator(products, products_page_num)
+    page = request.GET.get('page')
+    products_page = paginator.get_page(page)
 
     context = {
-        'products': products,
+        'products': products_page,
         'product_count': product_count,
     }
     return render(request, 'shop/store.html', context)
