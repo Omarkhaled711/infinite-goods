@@ -21,6 +21,16 @@ class RegisterForm(forms.ModelForm):
         self.fields['phone_number'].widget.attrs['placeholder'] = 'Enter Phone Number'
         self.fields['email'].widget.attrs['placeholder'] = 'Example@gmail.com'
         self.fields['password'].widget.attrs['placeholder'] = 'Enter Your Password'
-        self.fields['confirm_password'].widget.attrs['placeholder'] = 'Repeat Your Password'
+        self.fields['confirm_password'].widget.attrs['placeholder'] = 'Enter Your Password Agin'
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
+
+    def clean(self):
+        cleaned_data = super(RegisterForm, self).clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if password != confirm_password:
+            raise forms.ValidationError(
+                "Password does not match"
+            )

@@ -4,6 +4,7 @@
 {% block content %}
 
     <section class="section-content py-4">
+    {% include 'includes/alerts.html' %}
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -47,6 +48,8 @@
                     <button type="submit" class="btn btn-dark">Register</button>
                     </div>
                     <p class="text-muted text-center mt-3">Have an account? <a href="./login.html">Login from Here</a></p>
+                {{ form.email.errors }}
+                {{ form.non_fields_errors }}
                 </form>
             </div>
         </div>
