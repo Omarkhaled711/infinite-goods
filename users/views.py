@@ -7,7 +7,7 @@ from django.http import HttpResponse
 
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
-from django.utils.http import url_safe_base64_encode, url_safe_base64_decode
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
@@ -32,7 +32,7 @@ def register(request):
             message = render_to_string('account_verification_email.html', {
                 'user': user,
                 'domain': current_site,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk))
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': default_token_generator.make_token(user),
             })
             to_email = email
@@ -56,8 +56,8 @@ def login(request):
         user = auth.authenticate(email=email, password=password)
         if user is not None:
             auth.login(request, user)
-            #messages.success(request, 'You are now logged in.')
-            return redirect('home')
+            messages.success(request, 'You are now logged in.')
+            return redirect('dashboard')
         else:
             messages.error(request, 'Invalid login cerdentials')
             return redirect('login')
@@ -72,7 +72,7 @@ def logout(request):
     return redirect('login')
 
 
-def activate(request, uidb64, token)
+def activate(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uid64).decode()
         user = User._default_manager.get(pk-uid)
@@ -87,3 +87,7 @@ def activate(request, uidb64, token)
     else:
         messages.error(request, 'Invalid activation link')
         return redirect('register')
+
+@login_required(login_url='login')
+def dashboard(request):
+    return render(request, 'dashboard.html')
