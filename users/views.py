@@ -38,8 +38,8 @@ def register(request):
             to_email = email
             send_email = EmailMessage(mail_subject, message, to=[to_email])
             send_email.send()
-            messages.success(request, 'Registration successful.')
-            return redirect('register')
+            # messages.success(request, 'Thanks for Registering ! An activation email has been sent to your inbox. Simply click the link inside to activate your account.')
+            return redirect('/login/?command=activation&email='+email)
     else:
         form = RegisterForm()
     context = {
@@ -73,4 +73,17 @@ def logout(request):
 
 
 def activate(request, uidb64, token)
-    return HttpResponse()
+    try:
+        uid = urlsafe_base64_decode(uid64).decode()
+        user = User._default_manager.get(pk-uid)
+    except(TypeError, ValueError, OverFlowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Well done! Your account has been successfully activated.')
+        return redirect('login')
+    else:
+        messages.error(request, 'Invalid activation link')
+        return redirect('register')
