@@ -189,3 +189,24 @@ def cart(req, total_price=0, quantity=0, cart_items=None):
         'applied_coupon': applied_coupon_code
     }
     return render(req, 'shop/cart.html', context)
+
+
+def checkout(req, total_price=0, quantity=0, cart_items=None):
+    """
+    Adding checkout functionality to our store
+    """
+    try:
+        cart = Cart.objects.get(cart_id=get_cart_id(req))
+        cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+        for item in cart_items:
+            total_price += (item.quantity * item.product.price)
+            quantity += item.quantity
+    except Cart.DoesNotExist:
+        pass
+
+    context = {
+        'total_price': total_price,
+        'quantity': quantity,
+        'cart_items': cart_items,
+    }
+    return render(req, 'shop/checkout.html', context)
