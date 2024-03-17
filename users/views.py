@@ -37,7 +37,7 @@ def register(request):
             user.save()
             # activation
             mail_subject = 'Please activate your account'
-            render_str = 'account_verification_email.html'
+            render_str = 'users/account_verification_email.html'
             send_verification_email(
                 request, user, email, mail_subject, render_str)
             return redirect('/users/login/?command=activation&email='+email)
@@ -47,7 +47,7 @@ def register(request):
     context = {
         'form': form,
     }
-    return render(request, 'register.html', context)
+    return render(request, 'users/register.html', context)
 
 
 def send_verification_email(request, user, email, subject, render_str):
@@ -84,7 +84,7 @@ def login(request):
         else:
             messages.error(request, 'Invalid login cerdentials')
             return redirect('login')
-    return render(request, 'login.html')
+    return render(request, 'users/login.html')
 
 
 @login_required(login_url='login')
@@ -123,7 +123,7 @@ def dashboard(request):
     """
     dashboard view
     """
-    return render(request, 'dashboard.html')
+    return render(request, 'users/dashboard.html')
 
 
 def forgotPass(request):
@@ -138,7 +138,7 @@ def forgotPass(request):
             # Reset password
 
             mail_subject = 'Reset Your Password'
-            render_str = 'reset_password.html'
+            render_str = 'users/reset_password.html'
             send_verification_email(
                 request, user, email, mail_subject, render_str)
 
@@ -148,7 +148,7 @@ def forgotPass(request):
         else:
             messages.error(request, 'Account does not exsist!')
             return redirect('forgotPass')
-    return render(request, 'forgotPass.html')
+    return render(request, 'users/forgotPass.html')
 
 
 def resetpassword_validate(request, uidb64, token):
@@ -189,4 +189,4 @@ def resetPassword(request):
             messages.error(request, 'Password do not match!')
             return redirect('resetPassword')
     else:
-        return render(request, 'resetPassword.html')
+        return render(request, 'users/resetPassword.html')
