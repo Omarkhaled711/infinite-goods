@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from cart.models import Cart, CartItem, Coupon
 from shop.models import Product, Variation
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -191,6 +191,7 @@ def cart(req, total_price=0, quantity=0, cart_items=None):
     return render(req, 'shop/cart.html', context)
 
 
+@login_required(login_url="login")
 def checkout(req, total_price=0, quantity=0, cart_items=None):
     """
     Adding checkout functionality to our store

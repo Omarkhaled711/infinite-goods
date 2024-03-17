@@ -14,6 +14,9 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 
+from cart.views import get_cart_id
+from cart.models import Cart, CartItem
+
 
 def register(request):
     """
@@ -68,6 +71,25 @@ def send_verification_email(request, user, email, subject, render_str):
     send_email.send()
 
 
+def load_task_items(request, user):
+    """
+    when a user adds task items to his cart before logging in,
+    this cart items should still be there login, so we will check
+    if there's a cart associated with the session key when logging in,
+    if there's one, the items will be added to the user's cart
+    """
+    try:
+        cart = Cart.objects.get(cart_id=get_cart_id(request))
+        found_in_cart = CartItem.objects.filter(cart=cart).exists()
+        if found_in_cart:
+            cart_items = CartItem.objects.filter(cart=cart)
+            for item in cart_items:
+                item.user = user
+                item.save()
+    except Exception:
+        pass
+
+
 def login(request):
     """
     logging in view
@@ -78,6 +100,7 @@ def login(request):
 
         user = auth.authenticate(email=email, password=password)
         if user:
+            load_task_items(request, user)
             auth.login(request, user)
             messages.success(request, 'You are now logged in.')
             return redirect('dashboard')
