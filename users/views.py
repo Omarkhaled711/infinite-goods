@@ -87,8 +87,10 @@ def load_task_items(request, user):
             cart_item = CartItem.objects.filter(cart=cart)
             product_variations = []
             for item in cart_item:
-                variation = item.variations.all()
-                product_variations.append(list(variation))
+                variations = list(item.variations.all())
+                # Sort the variations based on some criterion, e.g., variation_value
+                variations.sort(key=lambda x: x.variation_value)
+                product_variations.append(variations)
 
             cart_item = CartItem.objects.filter(user=user)
             prev_products = []
