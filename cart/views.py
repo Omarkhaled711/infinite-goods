@@ -125,11 +125,15 @@ def decrement_cart_item(req, product_id, cart_item_id):
     """
     decrement a cart item from the cart
     """
-    cart = get_cart(req)
     product = get_object_or_404(Product, id=product_id)
     try:
-        cart_item = CartItem.objects.get(
-            product=product, cart=cart, id=cart_item_id)
+        if req.user.is_authenticated:
+            cart_item = CartItem.objects.get(
+                product=product, user=req.user, id=cart_item_id)
+        else:
+            cart = get_cart(req)
+            cart_item = CartItem.objects.get(
+                product=product, cart=cart, id=cart_item_id)
         if cart_item.quantity > 1:
             cart_item.quantity -= 1
             cart_item.save()
@@ -144,11 +148,15 @@ def remove_cart_item(req, product_id, cart_item_id):
     """
     remove a cart item from the cart
     """
-    cart = get_cart(req)
     product = get_object_or_404(Product, id=product_id)
     try:
-        cart_item = CartItem.objects.get(
-            product=product, cart=cart, id=cart_item_id)
+        if req.user.is_authenticated:
+            cart_item = CartItem.objects.get(
+                product=product, user=req.user, id=cart_item_id)
+        else:
+            cart = get_cart(req)
+            cart_item = CartItem.objects.get(
+                product=product, cart=cart, id=cart_item_id)
         cart_item.delete()
     except CartItem.DoesNotExist:
         pass
