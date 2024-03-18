@@ -17,6 +17,8 @@ from django.core.mail import EmailMessage
 from cart.views import get_cart_id, get_previous_products
 from cart.models import Cart, CartItem
 
+import requests
+
 
 def register(request):
     """
@@ -109,6 +111,22 @@ def load_task_items(request, user):
         pass
 
 
+def redirect_next_page(request, url):
+    """
+    when you login to access a specific page, you should
+    be redirect to that exact page after loggin in, so that's
+    what this function is taking care of
+    """
+    try:
+        url_parsed = requests.utils.urlparse(url).query
+        params = dict(param.split('=') for param in url_parsed.split('&'))
+        if 'next' in params:
+            return params['next']
+    except Exception:
+        pass
+    return 'dashboard'
+
+
 def login(request):
     """
     logging in view
@@ -122,7 +140,9 @@ def login(request):
             load_task_items(request, user)
             auth.login(request, user)
             messages.success(request, 'You are now logged in.')
-            return redirect('dashboard')
+            url = request.META.get('HTTP_REFERER')
+            next_page = redirect_next_page(request, url)
+            return redirect(next_page)
         else:
             messages.error(request, 'Invalid login cerdentials')
             return redirect('login')
