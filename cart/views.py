@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from cart.models import Cart, CartItem, Coupon
 from shop.models import Product, Variation
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -45,16 +45,21 @@ def add_product_variations(req, product, product_variation):
             product_variation.append(variation)
         except Exception:
             pass
+    # Sort the variations based on some criterion, e.g., variation_value
+    product_variation.sort(key=lambda x: x.variation_value)
 
 
-def get_previous_products(product, cart_item,
+def get_previous_products(cart_item,
                           previous_products_variations, previous_products_ids):
     """
     A function that returns the gets all existing variatoins for a product
     and appends them to a list
     """
     for item in cart_item:
-        previous_products_variations.append(list(item.variations.all()))
+        variations = list(item.variations.all())
+        # Sort the variations based on some criterion, e.g., variation_value
+        variations.sort(key=lambda x: x.variation_value)
+        previous_products_variations.append(variations)
         previous_products_ids.append(item.id)
 
 
@@ -62,21 +67,31 @@ def add_cart_item(req, product_id):
     """
     add a cart item to the cart
     """
+    current_user = req.user
     cart = get_cart(req)
     product = Product.objects.get(id=product_id)
+
     product_variation = []
     previous_products_variations = []
     previous_products_ids = []
     if req.method == "POST":
         add_product_variations(req, product, product_variation)
 
-    found_in_cart = CartItem.objects.filter(
-        product=product, cart=cart).exists()
-
-    if found_in_cart:
-        cart_items = CartItem.objects.filter(product=product, cart=cart)
-        get_previous_products(product, cart_items,
-                              previous_products_variations, previous_products_ids)
+    if current_user.is_authenticated:
+        found_in_cart = CartItem.objects.filter(
+            product=product, user=current_user).exists()
+        if found_in_cart:
+            cart_items = CartItem.objects.filter(
+                product=product, user=current_user)
+            get_previous_products(cart_items,
+                                  previous_products_variations, previous_products_ids)
+    else:
+        found_in_cart = CartItem.objects.filter(
+            product=product, cart=cart).exists()
+        if found_in_cart:
+            cart_items = CartItem.objects.filter(product=product, cart=cart)
+            get_previous_products(cart_items,
+                                  previous_products_variations, previous_products_ids)
 
     if found_in_cart and product_variation in previous_products_variations:
         index = previous_products_variations.index(product_variation)
@@ -84,11 +99,18 @@ def add_cart_item(req, product_id):
         cart_item = CartItem.objects.get(product=product, id=item_id)
         cart_item.quantity += 1
     else:
-        cart_item = CartItem.objects.create(
-            product=product,
-            cart=cart,
-            quantity=1
-        )
+        if current_user.is_authenticated:
+            cart_item = CartItem.objects.create(
+                product=product,
+                user=current_user,
+                quantity=1
+            )
+        else:
+            cart_item = CartItem.objects.create(
+                product=product,
+                cart=cart,
+                quantity=1
+            )
         previous_products_variations.append(list(cart_item.variations.all()))
 
     if len(product_variation) > 0:
@@ -103,11 +125,15 @@ def decrement_cart_item(req, product_id, cart_item_id):
     """
     decrement a cart item from the cart
     """
-    cart = get_cart(req)
     product = get_object_or_404(Product, id=product_id)
     try:
-        cart_item = CartItem.objects.get(
-            product=product, cart=cart, id=cart_item_id)
+        if req.user.is_authenticated:
+            cart_item = CartItem.objects.get(
+                product=product, user=req.user, id=cart_item_id)
+        else:
+            cart = get_cart(req)
+            cart_item = CartItem.objects.get(
+                product=product, cart=cart, id=cart_item_id)
         if cart_item.quantity > 1:
             cart_item.quantity -= 1
             cart_item.save()
@@ -122,11 +148,15 @@ def remove_cart_item(req, product_id, cart_item_id):
     """
     remove a cart item from the cart
     """
-    cart = get_cart(req)
     product = get_object_or_404(Product, id=product_id)
     try:
-        cart_item = CartItem.objects.get(
-            product=product, cart=cart, id=cart_item_id)
+        if req.user.is_authenticated:
+            cart_item = CartItem.objects.get(
+                product=product, user=req.user, id=cart_item_id)
+        else:
+            cart = get_cart(req)
+            cart_item = CartItem.objects.get(
+                product=product, cart=cart, id=cart_item_id)
         cart_item.delete()
     except CartItem.DoesNotExist:
         pass
@@ -152,8 +182,11 @@ def cart(req, total_price=0, quantity=0, cart_items=None):
     Main cart page
     """
     try:
-        cart = Cart.objects.get(cart_id=get_cart_id(req))
-        cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+        if req.user.is_authenticated:
+            cart_items = CartItem.objects.filter(user=req.user, is_active=True)
+        else:
+            cart = Cart.objects.get(cart_id=get_cart_id(req))
+            cart_items = CartItem.objects.filter(cart=cart, is_active=True)
         for item in cart_items:
             total_price += (item.quantity * item.product.price)
             quantity += item.quantity
@@ -189,3 +222,24 @@ def cart(req, total_price=0, quantity=0, cart_items=None):
         'applied_coupon': applied_coupon_code
     }
     return render(req, 'shop/cart.html', context)
+
+
+@login_required(login_url="login")
+def checkout(req, total_price=0, quantity=0, cart_items=None):
+    """
+    Adding checkout functionality to our store
+    """
+    try:
+        cart_items = CartItem.objects.filter(user=req.user, is_active=True)
+        for item in cart_items:
+            total_price += (item.quantity * item.product.price)
+            quantity += item.quantity
+    except Exception:
+        pass
+
+    context = {
+        'total_price': total_price,
+        'quantity': quantity,
+        'cart_items': cart_items,
+    }
+    return render(req, 'shop/checkout.html', context)

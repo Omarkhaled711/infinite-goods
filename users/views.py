@@ -14,6 +14,11 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 
+from cart.views import get_cart_id, get_previous_products
+from cart.models import Cart, CartItem
+
+import requests
+
 
 def register(request):
     """
@@ -68,6 +73,62 @@ def send_verification_email(request, user, email, subject, render_str):
     send_email.send()
 
 
+def load_task_items(request, user):
+    """
+    when a user adds task items to his cart before logging in,
+    this cart items should still be there login, so we will check
+    if there's a cart associated with the session key when logging in,
+    if there's one, the items will be added to the user's cart
+    """
+    try:
+        cart = Cart.objects.get(cart_id=get_cart_id(request))
+        found_in_cart = CartItem.objects.filter(cart=cart).exists()
+        if found_in_cart:
+            cart_item = CartItem.objects.filter(cart=cart)
+            product_variations = []
+            for item in cart_item:
+                variations = list(item.variations.all())
+                # Sort the variations based on some criterion, e.g., variation_value
+                variations.sort(key=lambda x: x.variation_value)
+                product_variations.append(variations)
+
+            cart_item = CartItem.objects.filter(user=user)
+            prev_products = []
+            prev_prod_ids = []
+            get_previous_products(cart_item, prev_products, prev_prod_ids)
+            for prod in product_variations:
+                if prod in prev_products:
+                    index = prev_products.index(prod)
+                    item_id = prev_prod_ids[index]
+                    item = CartItem.objects.get(id=item_id)
+                    item.quantity += 1
+                    item.user = user
+                    item.save()
+                else:
+                    cart_item = CartItem.objects.filter(cart=cart)
+                    for item in cart_item:
+                        item.user = user
+                        item.save()
+    except Exception:
+        pass
+
+
+def redirect_next_page(request, url):
+    """
+    when you login to access a specific page, you should
+    be redirect to that exact page after loggin in, so that's
+    what this function is taking care of
+    """
+    try:
+        url_parsed = requests.utils.urlparse(url).query
+        params = dict(param.split('=') for param in url_parsed.split('&'))
+        if 'next' in params:
+            return params['next']
+    except Exception:
+        pass
+    return 'dashboard'
+
+
 def login(request):
     """
     logging in view
@@ -78,9 +139,12 @@ def login(request):
 
         user = auth.authenticate(email=email, password=password)
         if user:
+            load_task_items(request, user)
             auth.login(request, user)
             messages.success(request, 'You are now logged in.')
-            return redirect('dashboard')
+            url = request.META.get('HTTP_REFERER')
+            next_page = redirect_next_page(request, url)
+            return redirect(next_page)
         else:
             messages.error(request, 'Invalid login cerdentials')
             return redirect('login')

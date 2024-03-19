@@ -4,7 +4,7 @@ A model for cart related functionalities
 from django.db import models
 from shop.models import Product, Variation
 from django.utils import timezone
-
+from users.models import User
 # Create your models here.
 
 
@@ -23,7 +23,8 @@ class CartItem(models.Model):
     """
     Model for items added in the cart
     """
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     variations = models.ManyToManyField(Variation, blank=True)
     is_active = models.BooleanField(default=True)

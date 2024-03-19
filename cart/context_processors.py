@@ -14,8 +14,11 @@ def counter(req):
         return {}
     else:
         try:
-            cart = Cart.objects.filter(cart_id=get_cart_id(req))[:1]
-            cart_items = CartItem.objects.all().filter(cart=cart)
+            if req.user.is_authenticated:
+                cart_items = CartItem.objects.all().filter(user=req.user)
+            else:
+                cart = Cart.objects.filter(cart_id=get_cart_id(req))[:1]
+                cart_items = CartItem.objects.all().filter(cart=cart)
             for item in cart_items:
                 cart_count += item.quantity
         except Exception:
