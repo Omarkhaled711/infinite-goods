@@ -6,7 +6,7 @@
 <section class="section-content py-4 mb-5">
     <div class="container">
         <div class="container-fluid">
-            <form action="" method="POST">
+            <form action="{% url 'place_order' %}" method="POST">
                 {% csrf_token %}
                 <div class="row">
                     <aside class="col-lg-6">
@@ -47,11 +47,11 @@
                                 <div class="row">
                                     <div class="col mb-3">
                                         <label for=""> Country </label>
-                                        <input type="text" name="Country" class="form-control" required>
+                                        <input type="text" name="country" class="form-control" required>
                                     </div>
                                     <div class="col mb-3">
                                         <label for=""> City </label>
-                                        <input type="text" name="City" class="form-control" required>
+                                        <input type="text" name="city" class="form-control" required>
                                     </div>
                                     <div class="col mb-3">
                                         <label for=""> State </label>
@@ -61,7 +61,7 @@
                                 <div class="row">
                                     <div class="col mb-3">
                                         <label for=""> Order Notes </label>
-                                        <textarea class="form-control" name="order_notes" rows="2"></textarea>
+                                        <textarea class="form-control" name="order_note" rows="2"></textarea>
                                     </div>
                                 </div>
                             </div>

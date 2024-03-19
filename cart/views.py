@@ -3,9 +3,10 @@ A module for cart application
 """
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from cart.models import Cart, CartItem, Coupon
+from cart.models import Cart, CartItem, Coupon, UserCoupon
 from shop.models import Product, Variation
 from django.contrib.auth.decorators import login_required
+from django.db.models import F
 # Create your views here.
 
 
@@ -163,18 +164,34 @@ def remove_cart_item(req, product_id, cart_item_id):
     return redirect('cart')
 
 
+@login_required(login_url='login')
 def apply_coupon(req, coupon_code, coupons):
     """
-    Apply coupon logic and store discount in session.
+    Apply coupon logic and associate it with the logged-in user.
     """
     try:
         applied_coupon = coupons.get(code=coupon_code)
         if applied_coupon.is_valid():
-            req.session['applied_coupon'] = applied_coupon.code
-            return True
+            user = req.user
+            if not UserCoupon.objects.filter(user=user, coupon=applied_coupon).exists():
+                UserCoupon.objects.create(user=user, coupon=applied_coupon)
+                return True
     except Coupon.DoesNotExist:
         pass
     return False
+
+
+def get_user_first_valid_coupon(user):
+    """
+    Get the first valid coupon associated with the given user.
+    """
+    try:
+        now = timezone.now().date()
+        user_first_valid_coupon = Coupon.objects.filter(
+            usercoupon__user=user, expiration_date__gte=now, current_usages__lt=F('max_usages')).first()
+        return user_first_valid_coupon
+    except Exception:
+        return None
 
 
 def cart(req, total_price=0, quantity=0, cart_items=None):
@@ -197,12 +214,15 @@ def cart(req, total_price=0, quantity=0, cart_items=None):
     tax = round(total_price * (2 / 100), 2)
     # apply coupons
     coupons = Coupon.objects.filter(expiration_date__gte=timezone.now().date())
+    applied_coupon_code = None
     if req.method == 'POST':
         coupon_code = req.POST.get('coupon_code', None)
-        if coupon_code and apply_coupon(req, coupon_code, coupons):
-            return redirect('cart')
+        if req.user.is_authenticated:
+            if coupon_code and apply_coupon(req, coupon_code, coupons):
+                return redirect('cart')
 
-    applied_coupon_code = req.session.get('applied_coupon', None)
+    if req.user.is_authenticated:
+        applied_coupon_code = get_user_first_valid_coupon(req.user)
     discount = 0
     if applied_coupon_code:
         applied_coupon = coupons.get(code=applied_coupon_code)
