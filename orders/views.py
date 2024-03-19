@@ -44,6 +44,23 @@ def calculate_paid(user, paid_amount, total_products=0, quantity=0):
     paid_amount['grand_total'] = grand_total
 
 
+def save_form_info(req, form, data, current_user, paid_amount):
+    """
+    Saves the data we got from the form into the database
+    """
+    data.user = current_user
+    for field_name, field_value in form.cleaned_data.items():
+        setattr(data, field_name, field_value)
+    data.total = paid_amount['grand_total']
+    data.tax = paid_amount['tax']
+    data.discount = paid_amount['discount']
+    data.ip = req.META.get('REMOTE_ADDR')
+    data.save()
+    unique_val = str(uuid.uuid4())
+    data.order_id = unique_val + str(data.id)
+    data.save()
+
+
 def place_order(req):
     """
     This view handles placing order functionality
@@ -52,6 +69,8 @@ def place_order(req):
     if (not is_cart_items(current_user)):
         return redirect('shop')
 
+    # get cart_items
+    cart_items = CartItem.objects.filter(user=current_user)
     # we will append total_products, tax, discount and grand_total to this array
     paid_amount = {}
     calculate_paid(current_user, paid_amount)
@@ -60,16 +79,20 @@ def place_order(req):
         form = OrderForm(req.POST)
         if form.is_valid():
             data = Order()
-            data.user = current_user
-            for field_name, field_value in form.cleaned_data.items():
-                setattr(data, field_name, field_value)
-            data.total = paid_amount['grand_total']
-            data.tax = paid_amount['tax']
-            data.discount = paid_amount['discount']
-            data.ip = req.META.get('REMOTE_ADDR')
-            data.save()
-            unique_val = str(uuid.uuid4())
-            data.order_id = unique_val + str(data.id)
-            data.save()
-        return redirect('checkout')
+            save_form_info(req, form, data, current_user, paid_amount)
+            order = Order.objects.get(
+                user=current_user, is_ordered=False, order_id=data.order_id)
+            context = {
+                'order': order,
+                'cart_items': cart_items,
+                'total_products': paid_amount['total_products'],
+            }
+        return render(req, 'orders/payments.html', context)
     return redirect('checkout')
+
+
+def payments(req):
+    """
+    payments view
+    """
+    return render(req, 'orders/payments.html')

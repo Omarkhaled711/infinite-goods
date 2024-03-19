@@ -60,6 +60,18 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def full_name(self):
+        """
+        return full name from first and last names
+        """
+        return f'{self.first_name} {self.last_name}'
+
+    def full_address(self):
+        """
+        return full address
+        """
+        return f'{self.address_1} {self.address_2}'
+
     def __str__(self):
         """
         a string representation for order model
