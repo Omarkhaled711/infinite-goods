@@ -21,9 +21,16 @@ function getCookie(name) {
 }
 document.addEventListener('DOMContentLoaded', function() {
     // Retrieve order total from data attribute
-    var grandTotal = parseFloat(document.getElementById('data-container').dataset.orderTotal);
-    var paymentUrl = document.getElementById('data-container').getAttribute('pay-url');
-    var orderID =  document.getElementById('data-container').getAttribute('order-id');
+    var dataContainer = document.getElementById('data-container');
+    var paypalButtonContainer = document.getElementById('paypal-button-container');
+
+    if (!dataContainer || !paypalButtonContainer) {
+        return;
+    }
+
+    var grandTotal = parseFloat(dataContainer.dataset.orderTotal);
+    var paymentUrl = dataContainer.getAttribute('pay-url');
+    var orderID =  dataContainer.getAttribute('order-id');
     var payment_method = 'PayPal';
     const csrftoken = getCookie('csrftoken');
 

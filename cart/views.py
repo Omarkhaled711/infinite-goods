@@ -175,6 +175,8 @@ def apply_coupon(req, coupon_code, coupons):
             user = req.user
             if not UserCoupon.objects.filter(user=user, coupon=applied_coupon).exists():
                 UserCoupon.objects.create(user=user, coupon=applied_coupon)
+                applied_coupon.current_usages += 1
+                applied_coupon.save()
                 return True
     except Coupon.DoesNotExist:
         pass

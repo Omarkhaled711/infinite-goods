@@ -3,10 +3,11 @@ import uuid
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from cart.models import CartItem, Coupon
+from cart.models import CartItem, Coupon, UserCoupon
 from cart.views import get_user_first_valid_coupon
 from orders.forms import OrderForm
 from orders.models import Order, OrderProduct, Payment
+from shop.models import Product
 
 # Create your views here.
 
@@ -118,7 +119,21 @@ def payments(req):
     order.is_ordered = True
     order.save()
     move_to_order_products(req, order, payment)
+    remove_applied_coupon(req)
     return render(req, 'orders/payments.html')
+
+
+def remove_applied_coupon(req):
+    """
+    If the user did use a coupon, then we will remove it
+    after the purchase
+    """
+    applied_coupon_code = get_user_first_valid_coupon(req.user)
+    if (applied_coupon_code):
+        applied_coupon = Coupon.objects.get(code=applied_coupon_code)
+        user_coupon = UserCoupon.objects.get(
+            user=req.user, coupon=applied_coupon)
+        user_coupon.delete()
 
 
 def move_to_order_products(req, order, payment):
@@ -140,3 +155,13 @@ def move_to_order_products(req, order, payment):
         product_variations = item.variations.all()
         order_product.variations.set(product_variations)
         order_product.save()
+        remove_quantity_sold(item)
+
+
+def remove_quantity_sold(item):
+    """
+    remove quantity of sold products
+    """
+    product = Product.objects.get(id=item.product_id)
+    product.stock -= item.quantity
+    product.save()

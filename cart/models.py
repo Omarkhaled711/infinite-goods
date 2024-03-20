@@ -64,3 +64,6 @@ class UserCoupon(models.Model):
 
     class Meta:
         unique_together = ['user', 'coupon']
+
+    def __str__(self):
+        return self.user.email

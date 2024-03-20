@@ -2,7 +2,7 @@
 Register the cart app models to the admin page
 """
 from django.contrib import admin
-from cart.models import Cart, CartItem, Coupon
+from cart.models import Cart, CartItem, Coupon, UserCoupon
 # Register your models here.
 
 
@@ -23,3 +23,4 @@ class CartItemAdmin(admin.ModelAdmin):
 admin.site.register(Cart, CartAdmin)
 admin.site.register(CartItem, CartItemAdmin)
 admin.site.register(Coupon)
+admin.site.register(UserCoupon)
