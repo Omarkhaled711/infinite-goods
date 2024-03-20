@@ -1,3 +1,4 @@
+import json
 import uuid
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -5,7 +6,7 @@ from django.shortcuts import redirect, render
 from cart.models import CartItem, Coupon
 from cart.views import get_user_first_valid_coupon
 from orders.forms import OrderForm
-from orders.models import Order
+from orders.models import Order, Payment
 
 # Create your views here.
 
@@ -91,8 +92,29 @@ def place_order(req):
     return redirect('checkout')
 
 
+def get_payment_info(req, body, order):
+    """
+    stroe payment object attributes values
+    """
+    return Payment(
+        user=req.user,
+        payment_id=body['transicID'],
+        payment_method=body['payment_method'],
+        paid_amount=order.total,
+        status=body['status'],
+    )
+
+
 def payments(req):
     """
     payments view
     """
+    body = json.loads(req.body)
+    order = Order.objects.get(
+        user=req.user, is_ordered=False, order_id=body['orderID'])
+    payment = get_payment_info(req, body, order)
+    payment.save()
+    order.payment = payment
+    order.is_ordered = True
+    order.save()
     return render(req, 'orders/payments.html')
