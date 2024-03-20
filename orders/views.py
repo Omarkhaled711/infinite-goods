@@ -137,3 +137,6 @@ def move_to_order_products(req, order, payment):
         order_product.product_price = item.product.price
         order_product.ordered = True
         order_product.save()
+        product_variations = item.variations.all()
+        order_product.variations.set(product_variations)
+        order_product.save()
