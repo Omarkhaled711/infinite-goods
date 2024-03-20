@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from cart.models import CartItem, Coupon
 from cart.views import get_user_first_valid_coupon
 from orders.forms import OrderForm
-from orders.models import Order, Payment
+from orders.models import Order, OrderProduct, Payment
 
 # Create your views here.
 
@@ -117,4 +117,23 @@ def payments(req):
     order.payment = payment
     order.is_ordered = True
     order.save()
+    move_to_order_products(req, order, payment)
     return render(req, 'orders/payments.html')
+
+
+def move_to_order_products(req, order, payment):
+    """
+    Move the cart items to order product table
+    """
+    cart_items = CartItem.objects.filter(user=req.user)
+
+    for item in cart_items:
+        order_product = OrderProduct()
+        order_product.order_id = order.id
+        order_product.payment = payment
+        order_product.user_id = req.user.id
+        order_product.product_id = item.product_id
+        order_product.quantity = item.quantity
+        order_product.product_price = item.product.price
+        order_product.ordered = True
+        order_product.save()
