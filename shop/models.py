@@ -5,6 +5,8 @@ from django.db import models
 from category.models import Category
 from django.urls import reverse
 
+from users.models import User
+
 # Create your models here.
 
 
@@ -70,3 +72,22 @@ class Variation(models.Model):
 
     def __str__(self):
         return f'{self.product.product_name}: {self.variation_value}'
+
+
+class ReviewRating(models.Model):
+    """
+    This class represents the review and ratings table
+    in the database
+    """
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=128, blank=True)
+    review = models.CharField(max_length=512, blank=True)
+    rating = models.FloatField()
+    ip = models.CharField(max_length=28, blank=True)
+    status = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.user} on {self.product}: {self.subject}'

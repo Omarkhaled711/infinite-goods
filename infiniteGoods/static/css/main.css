@@ -110,6 +110,48 @@
     text-decoration: none;
 }
 
+/* rating buttons styling */
+
+.ratings > input {
+    display: none;
+}
+.ratings {
+    display: inline-block;
+    border: 0;
+}
+
+.ratings > label {
+    float: right;
+}
+
+/* showing the stars for rating buttons */
+
+.ratings > label:before {
+    display: inline-block;
+    font-size: 1.1rem;
+    content: "\f005";
+    font-family: FontAwesome;
+    margin:0;
+    padding: 0.3rem 0.2rem;
+    cursor: pointer;
+}
+.ratings .half:before {
+    content: "\f089";
+    position: absolute;
+    padding-right: 0;
+}
+/* clicking on the starts */
+input:checked ~ label, label:hover ~ label {
+    color: #ffb503;
+}
+
+input:checked + label:hover, input:checked ~ label:hover,
+input:checked ~ label:hover ~ label,
+label:hover ~ input:checked ~ label {
+    color: #cc9000;
+}
+
+
 /* media queries */
 @media(min-width: 992px) {
     .nav-item{
@@ -122,3 +164,4 @@
         border: none;
     }
 }
+
