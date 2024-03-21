@@ -77,12 +77,7 @@
 
             <div class="row">
                 <div class="col-md-9">
-            
-                    <header class="section-heading">
-                        <h3>Customer Reviews</h3>
-                    </header>
-                    
-                    <form action="" method="POST">
+                    <form action="{% url 'submit_review' single_product.id %}" method="POST">
                         {% csrf_token %}
                         <h5>Share Your Review </h5>
                         <div>
@@ -107,10 +102,18 @@
                             Review:
                             <textarea name="review" rows="4" class="form-control"></textarea>
                             <br>
-                            <input type="submit" value="submit review" class="btn btn-outline-dark">
-                        </div>
+                            {% if user.is_authenticated %}
+                                <input type="submit" value="submit review" class="btn btn-outline-dark">
+                            {% else %}
+                                <p> You must be logged in first  <span> <a href="{% url 'login' %}" class="product-link"> Log in from here</a> </span> </p>
+                            {% endif %}
+                            </div>
                     </form>
                     <br>
+                    {% include 'includes/alerts.html' %}
+                    <header class="section-heading mt-2">
+                        <h3>Customer Reviews</h3>   
+                    </header>
                     <div class="review-box-container">
                         <article class="box mb-3">
                             <div class="icontext w-100">
