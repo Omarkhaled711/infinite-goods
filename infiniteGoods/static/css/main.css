@@ -151,6 +151,10 @@ label:hover ~ input:checked ~ label {
     color: #cc9000;
 }
 
+/* show given starts by a submitted user review */
+.show-user-rating i {
+    color: #ffb503 !important;
+}
 
 /* media queries */
 @media(min-width: 992px) {
