@@ -1,6 +1,8 @@
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
 import json
 import uuid
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from cart.models import CartItem, Coupon, UserCoupon
@@ -120,7 +122,13 @@ def payments(req):
     order.save()
     move_to_order_products(req, order, payment)
     remove_applied_coupon(req)
-    return render(req, 'orders/payments.html')
+    clear_cart(req)
+    send_order_received_mail(req, order)
+    data = {
+        'order_number': order.order_id,
+        'payment_id': payment.payment_id,
+    }
+    return JsonResponse(data)
 
 
 def remove_applied_coupon(req):
@@ -165,3 +173,54 @@ def remove_quantity_sold(item):
     product = Product.objects.get(id=item.product_id)
     product.stock -= item.quantity
     product.save()
+
+
+def clear_cart(req):
+    """
+    Clear the cart after payment is completed
+    """
+    CartItem.objects.filter(user=req.user).delete()
+
+
+def send_order_received_mail(req, order):
+    """
+    Send a mail to the user that the request has been received
+    """
+    mail_subject = "Order Received Successfully!"
+    render_str = 'orders/order_received_mail.html'
+    message = render_to_string(render_str, {
+        'user': req.user,
+        'order': order,
+    })
+    to_email = req.user.email
+    send_email = EmailMessage(mail_subject, message, to=[to_email])
+    send_email.send()
+
+
+def order_completed(req):
+    """
+    An order completed view
+    """
+    order_number = req.GET.get('order_number')
+    payment_id = req.GET.get('payment_id')
+
+    try:
+        order = Order.objects.get(order_id=order_number, is_ordered=True)
+        ordered_products = OrderProduct.objects.filter(order_id=order.id)
+        payment = Payment.objects.get(payment_id=payment_id)
+
+        total_products = 0
+        for item in ordered_products:
+            total_products += (item.quantity * item.product.price)
+
+        context = {
+            "order": order,
+            "ordered_products": ordered_products,
+            "order_number": order_number,
+            "payment": payment,
+            "payment_id": payment.payment_id,
+            "total_products": total_products,
+        }
+        return render(req, 'orders/order_completed.html', context)
+    except (Order.DoesNotExist, Payment.DoesNotExist):
+        return redirect('home')

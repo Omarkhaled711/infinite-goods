@@ -1,5 +1,5 @@
-$(document).ready(function() {
-    setTimeout(function(){
+$(document).ready(function () {
+    setTimeout(function () {
         $('#message').fadeOut('slow');
     }, 5000);
 });
@@ -19,7 +19,7 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Retrieve order total from data attribute
     var dataContainer = document.getElementById('data-container');
     var paypalButtonContainer = document.getElementById('paypal-button-container');
@@ -30,13 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var grandTotal = parseFloat(dataContainer.dataset.orderTotal);
     var paymentUrl = dataContainer.getAttribute('pay-url');
-    var orderID =  dataContainer.getAttribute('order-id');
+    var orderID = dataContainer.getAttribute('order-id');
+    var redirect_url = dataContainer.getAttribute('redirect-url')
     var payment_method = 'PayPal';
     const csrftoken = getCookie('csrftoken');
 
     // Configure PayPal Smart Buttons
     paypal.Buttons({
-        createOrder: function(data, actions) {
+        createOrder: function (data, actions) {
             return actions.order.create({
                 purchase_units: [{
                     amount: {
@@ -45,11 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }]
             });
         },
-        onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
                 console.log(details);
                 sendData();
-                function sendData(){
+                function sendData() {
                     fetch(paymentUrl, {
                         method: "POST",
                         headers: {
@@ -60,9 +61,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             orderID: orderID,
                             transicID: details.id,
                             payment_method: payment_method,
-                            status:  details.status,
+                            status: details.status,
                         }),
                     })
+                        .then(response => response.json())
+                        .then(data => {
+                            window.location.href = redirect_url + '?order_number=' + data.order_number + '&payment_id=' + data.payment_id;
+                        });
                 }
                 // Call your server to save transaction details
             });

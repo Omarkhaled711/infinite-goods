@@ -119,7 +119,7 @@
                             <p class="text-center mb-3">
                                 <img src="{% static './images/misc/payments.png' %}" height="26">
                             </p>
-                            <div id="data-container" data-order-total="{{ order.total }}" pay-url="{% url 'payments' %}" order-id="{{ order.order_id }}"></div>
+                            <div id="data-container" data-order-total="{{ order.total }}" pay-url="{% url 'payments' %}" order-id="{{ order.order_id }}" redirect-url="{% url 'order_completed' %}"></div>
                             <div class="d-grid gap-2">
                                 <div id="paypal-button-container">
 
