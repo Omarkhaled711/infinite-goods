@@ -56,7 +56,7 @@
                                             <div class="input-group mt-4">
                                                 <a href="{% url 'decrement_cart_item' item.product.id item.id %}"
                                                     class="btn btn-outline-secondary" type="button" id="decrementBtn">
-                                                    <i class="fas fa-minus"></i>
+                                                    <i class="fa fa-minus"></i>
                                                 </a>
                                                 <input type="text" class="form-control text-center"
                                                     value="{{ item.quantity }}" id="quantityInput" readonly>
@@ -69,7 +69,7 @@
                                                     {% endfor %}
                                                     <button class="btn btn-outline-secondary" type="submit"
                                                         id="incrementBtn">
-                                                        <i class="fas fa-plus"></i>
+                                                        <i class="fa fa-plus"></i>
                                                     </button>
                                                 </form>
                                             </div>

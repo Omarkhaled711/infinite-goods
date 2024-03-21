@@ -69,6 +69,12 @@ class User(AbstractBaseUser):
 
     objects = ManageUsers()
 
+    def full_name(self):
+        """
+        return the full name of the user
+        """
+        return f'{self.first_name} {self.last_name}'
+
     def has_perm(self, perm, obj=None):
         '''
         check if the user is an admin who has permissions
