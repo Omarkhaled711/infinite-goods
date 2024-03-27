@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <section class="section-conten py-4">
+    {% include 'includes/alerts.html' %}
+        <div class="container">
+            <div class="row">
+            {% include 'includes/sidebar-dashboard.html' %}
+            <main class="col-md-9">
+                <article class="card">
+                <header class="card-header">
+                    <strong class="d-inline-block mr-3">Your Order history</strong>
+                    
+                </header>
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scoope="col">Order #</th>
+                                        <th scoope="col">Billing Name</th>
+                                        <th scoope="col">Phone</th>
+                                        <th scoope="col">Order Total</th>
+                                        <th scoope="col">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                    <tr>
+                                        <th scoope="row">{{order.order_id}}</th>
+                                        <td>{{order.full_name}}</td>
+                                        <td>{{order.phone}}</td>
+                                        <td>{{order.order_total}}</td>
+                                        <td>{{order.created_at}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>   
+                </div>
+                </article> 
+            </main>
+            </div> <!-- row.// -->
+        </div>
+        
+    </section>
+{% endblock %}

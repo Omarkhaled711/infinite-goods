@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from .models import User
 from django.contrib import messages, auth
+from orders.models import Order
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.sites.shortcuts import get_current_site
@@ -187,6 +188,11 @@ def dashboard(request):
     """
     dashboard view
     """
+    orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_ordered=True)
+    orders_count = orders.count()
+    context = {
+        'orders_count': orders_count,
+    }
     return render(request, 'users/dashboard.html')
 
 
@@ -254,3 +260,11 @@ def resetPassword(request):
             return redirect('resetPassword')
     else:
         return render(request, 'users/resetPassword.html')
+
+
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user, is_orderd=True).order_by('-created_at')
+    context = {
+        'orders': orders,
+    }
+    return render(request, 'users/order.html', context)
