@@ -41,6 +41,8 @@ def register(request):
                                             password=password)
             user.phone_number = phone_number
             user.save()
+            userprofile = UserProfile.objects.create(user_id=user.id)
+            userprofile.save()
             # activation
             mail_subject = 'Please activate your account'
             render_str = 'users/account_verification_email.html'
@@ -188,7 +190,8 @@ def dashboard(request):
     """
     dashboard view
     """
-    orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_ordered=True)
+    orders = Order.objects.order_by(
+        '-created_at').filter(user_id=request.user.id, is_ordered=True)
     orders_count = orders.count()
 
     userprofile = UserProfile.objects.get(user_id=request.user.id)
@@ -196,7 +199,7 @@ def dashboard(request):
         'orders_count': orders_count,
         'userprofile': userprofile,
     }
-    return render(request, 'users/dashboard.html')
+    return render(request, 'users/dashboard.html', context)
 
 
 def forgotPass(request):
@@ -264,12 +267,14 @@ def resetPassword(request):
     else:
         return render(request, 'users/resetPassword.html')
 
+
 @login_required(login_url='login')
 def my_orders(request):
     """
     Renders a user's orders page.
     """
-    orders = Order.objects.filter(user=request.user, is_ordered=True).order_by('-created_at')
+    orders = Order.objects.filter(
+        user=request.user, is_ordered=True).order_by('-created_at')
     context = {
         'orders': orders,
     }
@@ -284,7 +289,8 @@ def edit_profile(request):
     userprofile = get_object_or_404(UserProfile, user=request.user)
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
-        user_profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        user_profile_form = UserProfileForm(
+            request.POST, request.FILES, instance=userprofile)
         if user_form.is_valid() and user_profile_form.is_valid():
             user_form.save()
             user_profile_form.save()
@@ -300,6 +306,7 @@ def edit_profile(request):
     }
     return render(request, 'users/edit_profile.html', context)
 
+
 @login_required(login_url='login')
 def change_password(request):
     """
@@ -310,7 +317,7 @@ def change_password(request):
         new_password = request.POST['new_password']
         confirm_password = request.POST['confirm_password']
 
-        user = User.objects.get(username__exact=request.user.username)
+        user = User.objects.get(user_name__exact=request.user.user_name)
 
         if new_password == confirm_password:
             success = user.check_password(current_password)
@@ -332,12 +339,12 @@ def change_password(request):
 def order_detail(request, order_id):
     order_detail = OrderProduct.objects.filter(order__order_id=order_id)
     order = Order.objects.get(order_id=order_id)
-    subtotal = 0
+    total_products = 0
     for i in order_detail:
-        subtotal += i.product_price * i.quantity
+        total_products += i.product_price * i.quantity
     context = {
         'order_detail': order_detail,
         'order': order,
-        'subtotal': subtotal,
+        'total_products': total_products,
     }
-    return render(request, 'users/order_detail.html')
+    return render(request, 'users/order_detail.html', context)
