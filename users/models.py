@@ -92,3 +92,22 @@ class User(AbstractBaseUser):
         A string representation for the model1
         '''
         return self.email
+
+
+class UserProfile(models.Model):
+    """
+    Represents additional profile information for a user.
+    """
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.CharField(blank=True, max_length=100)
+    profile_image = models.ImageField(
+        default='userprofile/default.jpg', upload_to='userprofile')
+    city = models.CharField(blank=True, max_length=20)
+    state = models.CharField(blank=True, max_length=20)
+    country = models.CharField(blank=True, max_length=20)
+
+    def __str__(self):
+        """
+        Returns a string representation of the UserProfile instance.
+        """
+        return self.user.first_name

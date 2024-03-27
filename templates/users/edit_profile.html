@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <section class="section-conten py-4">
+    {% include 'includes/alerts.html' %}
+        <div class="container">
+            <div class="row">
+            {% include 'includes/sidebar-dashboard.html' %}
+            <main class="col-md-9">
+                <article class="card">
+                <header class="card-header">
+                    <strong class="d-inline-block mr-3">Edit your Profile</strong>
+                    
+                </header>
+                <div class="card-body">
+                    <div class="text-right">
+                        <img src="{{userprofile.profile_image.url}}" alt="Profile Image" width="100" style="border-radius:70px;">
+                    </div>
+                    <div class="row">
+                    <div class="col-md-12">
+                        <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form_row">
+                                <div class="form-group col-md-6">
+                                    <label for="first_name">First Name</label>
+                                    {{user_form.first_name}}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Last Name</label>
+                                    {{user_form.last_name}}
+                                </div>
+                            </div>
+                            <div class="form_row">
+                                <div class="form-group col-md-6">
+                                    <label>Phone Number</label>
+                                    {{user_form.phone_number}}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Profile Image</label>
+                                    {{user_profile_form.profile_image}}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label>Address</label>
+                                {{user_profile_form.address}}
+                            </div>
+                            <div class="form_row">
+                                <div class="form-group col-md-4">
+                                    <label>City</label>
+                                    {{user_profile_form.city}}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>State</label>
+                                    {{user_profile_form.state}}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Country</label>
+                                    {{user_profile_form.country}}
+                                </div>
+                            </div>
+                            <input type="submit" value="Save" class="mt-4 btn btn-outline-dark">
+                        </form>
+                            
+                            
+                </article> 
+            </main>
+            </div> <!-- row.// -->
+        </div>
+        
+    </section>
+{% endblock %}
