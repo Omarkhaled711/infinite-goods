@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from . import views
 
 urlpatterns = [
@@ -10,4 +10,5 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('submit_review/<int:product_id>/',
          views.submit_review, name='submit_review'),
+    path('api/v1/', include('shop.api.v1.urls')),
 ]

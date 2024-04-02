@@ -1,7 +1,7 @@
 '''
 Module for cart urls
 '''
-from django.urls import path
+from django.urls import include, path
 from cart import views
 
 urlpatterns = [
@@ -13,5 +13,6 @@ urlpatterns = [
     path('remove_cart/<int:product_id>/<int:cart_item_id>',
          views.remove_cart_item, name="remove_cart_item"),
     path('checkout/', views.checkout, name='checkout'),
+    path('api/v1/', include('cart.api.v1.urls')),
 
 ]
