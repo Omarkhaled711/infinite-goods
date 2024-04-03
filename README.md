@@ -15,32 +15,111 @@ Infinite Goods is an e-commerce platform aimed at providing a seamless shopping 
 ## Features
 
 - **User Authentication**: Secure user authentication system allowing customers to create accounts, activate their email through a validating link, login, and manage their profiles.
+  - Registering Process:
+    
+     https://github.com/Omarkhaled711/infinite-goods/assets/77131348/90da0c3b-7c78-4726-bdb8-0692e37946b0
 
-- **Product Management**: Easy-to-use interface for adding, updating, and deleting products, as well as managing inventory and product attributes.
+  - Login Process:
+    
+    https://github.com/Omarkhaled711/infinite-goods/assets/77131348/690b45ae-2b6f-4845-a677-c82e39401c6c
 
-- **Shopping Cart Functionality**: Seamless shopping cart experience enabling users to add, remove, and modify items before proceeding to checkout.
+- **Searching For Products**: Easy-to-use interface for Searching for products based on product name and description
 
-- **Checkout Process**: Smooth and intuitive checkout process with multiple payment options for a hassle-free purchasing experience.
+    https://github.com/Omarkhaled711/infinite-goods/assets/77131348/46897db6-2cb6-4951-ab65-29c5dd469f00
 
-- **Order Management**: Receiving an email when order is completed, and getting updated about the status of your order.
+- **Cart Functionality**: Seamless shopping cart experience enabling users to add, remove, and modify items before proceeding to checkout.
+  - Add To Cart:
 
-- **Payment Integration with PayPal**: Integration with PayPal for secure and convenient online payments, ensuring trust and reliability for customers.
+    https://github.com/Omarkhaled711/infinite-goods/assets/77131348/594a17bd-c666-491b-93e3-ea9f3bcd39dd
+
+  - Increment, Decrement, and Remove from cart:
+
+    https://github.com/Omarkhaled711/infinite-goods/assets/77131348/b1677f4d-4ce9-4376-99af-86db73dff96b
 
 - **Coupon Application**: Capability to apply discount coupons during checkout, enhancing customer satisfaction and encouraging repeat purchases.
 
+  https://github.com/Omarkhaled711/infinite-goods/assets/77131348/62e2081c-576e-494e-9059-6f3610d687c1
+  
+- **Place Order Process**: Smooth and intuitive placing order process
+
+  https://github.com/Omarkhaled711/infinite-goods/assets/77131348/94ad0b5e-71f0-4578-9fd5-724ce56ad2a6
+
+- **Payment Integration with PayPal**: Integration with PayPal for secure and convenient online payments, ensuring trust and reliability for customers.
+
+  https://github.com/Omarkhaled711/infinite-goods/assets/77131348/f46515e5-6ca3-47f6-a53f-6adcb6ebff4b
+
+- **Submit Reviews** : Let the people konow what you think of the products you bought, and whether you recommend it or not.
+
+  https://github.com/Omarkhaled711/infinite-goods/assets/77131348/ddd65269-a4ed-48a6-8a44-19f653a9218d
+
+- **Order Management**: Receiving an email when order is completed, and getting updated about the status of your order.
+   <details>
+     <summary>Click to view screenshot</summary>
+     
+  ![Order_Confirmation_Mail](https://github.com/Omarkhaled711/infinite-goods/assets/77131348/4d2af1c7-7d04-4124-a515-5835ddf54e96)
+  
+   </details>
+
 - **Admin Dashboard**: Granting superuser access to monitor and manage data according to administrative preferences.
+   <details>
+     <summary>Click to view screenshot</summary>
+     
+  ![admin_dashBoard](https://github.com/Omarkhaled711/infinite-goods/assets/77131348/a9f3716e-a1b5-489a-92e3-9529f5d02440)
+
+  </details>
 
 And More... We are Continuously evolving features to improve the overall shopping experience and meet the diverse needs of our customers.
 
+## REST API
+We provide a RESTful API to interact with various resources. Below are the available endpoints for now:
+
+### Product Endpoints
+
+- **GET /shop/api/v1/products/**
+  - Description: Retrieve a list of all products available in the shop.
+  - Parameters: None
+- **GET /shop/api/v1/products/{product_id}/**
+  - Description: Retrieve details of a specific product by its ID.
+  - Parameters:
+    - {product_id}: Unique identifier of the product.
+
+### Category Endpoints
+
+- **GET /category/api/v1/categories/**:
+  - Description: Retrieve a list of all categories.
+  - Parameters: None
+
+### Cart Items Endpoint
+
+- **GET /cart/api/v1/cart/items/**
+  - Description: Retrieve the items currently in the user's shopping cart.
+  - Authentication: Supports both Session Authentication and Token Authentication.
+  - Parameters: None
+
+### Order Endpoints
+
+- **GET /orders/api/v1/orders/**
+  - Description: Retrieve a list of all orders placed by the current user.
+  - Authentication: Supports both Session Authentication and Token Authentication.
+  - Method: GET
+  - Parameters: None
+
+- **POST /orders/api/v1/orders/**
+  - Description: Place a new order.
+  - Authentication: Supports both Session Authentication and Token Authentication.
+  - Method: POST
+  - Parameters: Order details (e.g., products, quantities)
+
+- GET /orders/api/v1/orders/{order_id}/
+  - Description: Retrieve details of a specific order by its ID.
+  - Authentication: Supports both Session Authentication and Token Authentication.
+  - Method: GET
+  - Parameters:
+    - {order_id}: Unique identifier of the order.
+
 ## Requirements
 
-Ensure you have the following packages installed:
-
-- asgiref==3.2.10
-- Django==3.1
-- pillow==10.2.0
-- pytz==2024.1
-- sqlparse==0.4.4
+Ensure you have the packages inside requirements.txt installed.
 
 You can install these dependencies using pip:
 
